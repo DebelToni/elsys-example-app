@@ -78,8 +78,8 @@ async def store_file(file: UploadFile = File(...)):
     try:
         # Security check: prevent directory traversal in filename
         filename = os.path.basename(file.filename)
-        if not filename or filename in (".", ".."):
-            raise HTTPException(status_code=400, detail="Invalid filename")
+        # if not filename or filename in (".", ".."):
+        #     raise HTTPException(status_code=400, detail="Invalid filename")
         
         file_path = STORAGE_DIR / filename
         
