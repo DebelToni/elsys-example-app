@@ -72,6 +72,13 @@ def test_list_files_reports_current_files(client, temp_storage):
     assert set(data["files"]) == {"a.txt", "b.txt"}
 
 
+def test_store_file_rejects_invalid_filename(client):
+    payload = {"file": ("..", b"nope", "text/plain")}
+    response = client.post("/files", files=payload)
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Invalid filename"
+
+
 def test_metrics_reflect_storage_usage(client):
     payload = {"file": ("metrics.txt", b"abcd", "text/plain")}
     store_response = client.post("/files", files=payload)

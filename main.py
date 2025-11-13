@@ -102,6 +102,9 @@ async def store_file(file: UploadFile = File(...)):
             "size": len(content),
             "content_type": file.content_type
         }
+    except HTTPException:
+        # Allow explicitly raised HTTP errors (e.g., invalid filename) to propagate.
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to store file: {str(e)}")
 
@@ -151,4 +154,3 @@ async def metrics():
         "total_storage_mb": round(total_size / (1024 * 1024), 2),
         "timestamp": datetime.utcnow().isoformat()
     }
-
