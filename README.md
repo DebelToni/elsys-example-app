@@ -1,98 +1,12 @@
-# File Storage API
+# Дезайн шаблони
 
-A simple FastAPI server for storing and retrieving files.
+1. Singleton - Всеки клас има само една истанция на обект по време на работата на приложението. Ползваме го, когато дадено нещо трябва да е 1 за цялото приложение и всички да достъпват него, за да няма несъответствия (връзка с база данни, конфигурация, главен клас за приложението, логър...)
 
-## Installation
+2. Factory - създава обекти с factory метод, вместо да инстанцираме директно с new. Ползваме го, когато искаме да скрием логиката по създаване и лесно да сменяме и добавяме типове и методи, без да припаме клиенския код.
 
-1. Create a virtual environment (recommended):
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+3. Observer - ползваме обект да наблюдава дадено нещо и да известява други обекти, които са вързани на него да слушат при съответните промени, за които следи. Event-driven системи.
 
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+4. Strategy - енкапсулираме методи като взаимнозаменяеми обекти. Ползваме го, когато искаме да можем лесно да сменим дадена логика без да правим switch или if/else, което води до по-кратък и модулен кодец.
 
-## Running the Server
-
-Start the server with:
-```bash
-uvicorn main:app --reload
-```
-
-The server will start on `http://localhost:8000`
-
-## API Endpoints
-
-### GET `/files/{filename}`
-Retrieve a file by filename.
-
-**Example:**
-```bash
-curl http://localhost:8000/files/myfile.txt
-```
-
-### POST `/files`
-Store a file locally on the filesystem.
-
-**Example:**
-```bash
-curl -X POST -F "file=@/path/to/your/file.txt" http://localhost:8000/files
-```
-
-### GET `/files`
-List all stored files.
-
-**Example:**
-```bash
-curl http://localhost:8000/files
-```
-
-### GET `/health`
-Health check endpoint to verify server status.
-
-**Example:**
-```bash
-curl http://localhost:8000/health
-```
-
-**Response:**
-```json
-{
-  "status": "healthy",
-  "timestamp": "2024-01-01T12:00:00.000000",
-  "service": "File Storage API"
-}
-```
-
-### GET `/metrics`
-Metrics endpoint providing server statistics including file counter and storage usage.
-
-**Example:**
-```bash
-curl http://localhost:8000/metrics
-```
-
-**Response:**
-```json
-{
-  "files_stored_total": 10,
-  "files_current": 8,
-  "total_storage_bytes": 1048576,
-  "total_storage_mb": 1.0,
-  "timestamp": "2024-01-01T12:00:00.000000"
-}
-```
-
-## API Documentation
-
-Once the server is running, you can access:
-- Interactive API docs: http://localhost:8000/docs
-- Alternative API docs: http://localhost:8000/redoc
-
-## Storage
-
-Files are stored in the `storage/` directory, which is created automatically when the server starts.
+5. Decorator - добавя нова функционалност към обект, без да променя неговия клас. Ползваме го, когато искаме да наслагваме функционалности без много наследяване (да кажем логване да сложим).
 
