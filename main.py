@@ -1,14 +1,14 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.responses import FileResponse
 import os
-from pathlib import Path
 from datetime import datetime
+
+from storage_config import StorageConfig
 
 app = FastAPI(title="File Storage API", version="1.0.0")
 
-# Directory where files will be stored
-STORAGE_DIR = Path("storage")
-STORAGE_DIR.mkdir(exist_ok=True)
+storage_config = StorageConfig()
+STORAGE_DIR = storage_config.storage_dir
 
 # Counter for files stored (initialize with existing files count)
 
