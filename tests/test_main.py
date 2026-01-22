@@ -1,13 +1,5 @@
-import sys
-from pathlib import Path
-
 import pytest
 from fastapi.testclient import TestClient
-
-BASE_DIR = Path(__file__).resolve().parents[1]
-if str(BASE_DIR) not in sys.path:
-    sys.path.append(str(BASE_DIR))
-
 import main
 
 
@@ -58,7 +50,8 @@ def test_get_file_returns_stored_binary(client, temp_storage):
     response = client.get("/files/stored.bin")
     assert response.status_code == 200
     assert response.content == payload
-    assert 'filename="stored.bin"' in response.headers.get("content-disposition", "")
+    content_disposition = response.headers.get("content-disposition", "")
+    assert 'filename="stored.bin"' in content_disposition
 
 
 def test_list_files_reports_current_files(client, temp_storage):

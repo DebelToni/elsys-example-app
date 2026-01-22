@@ -25,10 +25,16 @@ class FileStorageUser(HttpUser):
         file_obj.seek(0)
         files = {"file": (filename, file_obj, "application/octet-stream")}
 
-        with self.client.post("/files", files=files, name="/files [POST]", catch_response=True) as response:
+        with self.client.post(
+            "/files",
+            files=files,
+            name="/files [POST]",
+            catch_response=True,
+        ) as response:
             if response.status_code == 200:
                 self.created_files.append(filename)
-                # Keep a rolling window of known files to avoid unbounded growth.
+                # Keep a rolling window of known files to avoid unbounded
+                # growth.
                 if len(self.created_files) > 32:
                     self.created_files.pop(0)
             else:
@@ -52,7 +58,8 @@ class FileStorageUser(HttpUser):
     def list_files(self):
         response = self.client.get("/files")
         if response.status_code == 200:
-            # Merge known files with server response to maximize successful downloads.
+            # Merge known files with server response to maximize successful
+            # downloads.
             server_files = response.json().get("files", [])
             combined = set(self.created_files)
             combined.update(server_files)
