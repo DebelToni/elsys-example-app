@@ -110,7 +110,8 @@ async def store_file(file: UploadFile = File(...)):
             "content_type": file.content_type
         }
     except HTTPException:
-        # Allow explicitly raised HTTP errors (e.g., invalid filename) to propagate.
+        # Allow explicitly raised HTTP errors (e.g., invalid filename)
+        # to propagate.
         raise
     except Exception as e:
         raise HTTPException(

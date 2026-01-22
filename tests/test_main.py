@@ -1,6 +1,15 @@
+import sys
+from importlib import import_module
+from pathlib import Path
+
 import pytest
 from fastapi.testclient import TestClient
-import main
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+if str(BASE_DIR) not in sys.path:
+    sys.path.append(str(BASE_DIR))
+
+main = import_module("main")
 
 
 @pytest.fixture
